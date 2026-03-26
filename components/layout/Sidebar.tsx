@@ -23,6 +23,9 @@ const menus: Record<Rolle, { href: string; label: string; icon: string }[]> = {
     { href: "/dashboard-mieter/melden", label: "Schaden melden", icon: "+" },
     { href: "/dashboard-mieter/tickets", label: "Meine Tickets", icon: "ð«" },
   ],
+  admin: [
+    { href: "/admin", label: "Rollenwechsel", icon: "â" },
+  ],
 }
 
 export default function Sidebar({ rolle }: { rolle: Rolle }) {
