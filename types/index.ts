@@ -1,4 +1,4 @@
-export type Rolle = "verwalter" | "handwerker" | "mieter"
+export type Rolle = "verwalter" | "handwerker" | "mieter" | "admin"
 export type TicketStatus = "offen" | "auktion" | "in_bearbeitung" | "erledigt"
 export type Prioritaet = "normal" | "hoch" | "dringend"
 export type AngebotStatus = "eingereicht" | "angenommen" | "abgelehnt"
