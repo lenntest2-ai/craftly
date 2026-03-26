@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: #f8f8f6; color: #1a1a18; }
+
+.logo { font-family: 'DM Serif Display', serif; }
+
+/* Status badge colors */
+.badge-offen    { background: #FCEBEB; color: #A32D2D; }
+.badge-auktion  { background: #E6F1FB; color: #185FA5; }
+.badge-progress { background: #FAEEDA; color: #854F0B; }
+.badge-erledigt { background: #E1F5EE; color: #0F6E56; }
+
+/* Priority colors */
+.prio-dringend { background: #FCEBEB; color: #A32D2D; }
+.prio-hoch     { background: #FAEEDA; color: #854F0B; }
+.prio-normal   { background: #F1EFE8; color: #5F5E5A; }
