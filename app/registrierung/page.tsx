@@ -7,7 +7,7 @@ import { Rolle } from "@/types"
 
 export default function RegistrierungPage() {
   const router = useRouter()
-  const [form, setForm] = useState({ name: "", email: "", password: "", rolle: "verwalter" as Rolle, firma: "", gewerk: "", plz_bereich: "" })
+  const [form, setForm] = useState({ name: "", email: "", password: "", rolle: "admin" as Rolle, firma: "", gewerk: "", plz_bereich: "" })
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }))
@@ -23,7 +23,8 @@ export default function RegistrierungPage() {
       rolle: form.rolle, firma: form.firma, gewerk: form.gewerk, plz_bereich: form.plz_bereich,
     })
 
-    if (form.rolle === "verwalter") router.push("/dashboard-verwalter")
+    if (form.rolle === "admin") router.push("/admin")
+    else if (form.rolle === "verwalter") router.push("/dashboard-verwalter")
     else if (form.rolle === "handwerker") router.push("/dashboard-handwerker")
     else router.push("/dashboard-mieter")
   }
@@ -38,6 +39,7 @@ export default function RegistrierungPage() {
         <Card>
           <div className="flex flex-col gap-4">
             <Select label="Ich bin..." value={form.rolle} onChange={e => set("rolle", e.target.value)}>
+              <option value="admin">Admin (alle Rollen)</option>
               <option value="verwalter">Hausverwaltung</option>
               <option value="handwerker">Handwerksbetrieb</option>
               <option value="mieter">Mieter</option>
