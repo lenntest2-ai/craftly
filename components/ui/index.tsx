@@ -49,9 +49,9 @@ export function Avatar({ name, size = "md" }: { name: string; size?: "sm" | "md"
   )
 }
 
-export function Card({ children, className = "", onClick }: { children: React.ReactNode; className?: string; onClick?: () => void }) {
+export function Card({ children, className = "", onClick, style }: { children: React.ReactNode; className?: string; onClick?: () => void; style?: React.CSSProperties }) {
   return (
-    <div className={`bg-white border border-gray-100 rounded-xl p-4 ${className}`} onClick={onClick}>
+    <div className={`bg-white border border-gray-100 rounded-xl p-4 ${className}`} onClick={onClick} style={style}>
       {children}
     </div>
   )
