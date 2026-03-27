@@ -16,7 +16,7 @@ function Timer({ end }: { end: string }) {
   const h = Math.floor(secs / 3600), m = Math.floor((secs % 3600) / 60), s = secs % 60
   const fmt = (n: number) => String(n).padStart(2, "0")
   if (secs === 0) return <span className="text-xs text-red-500">Abgelaufen</span>
-  return <span className="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full font-medium">â± {fmt(h)}:{fmt(m)}:{fmt(s)}</span>
+  return <span className="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full font-medium">⏱ {fmt(h)}:{fmt(m)}:{fmt(s)}</span>
 }
 
 export default function HandwerkerDashboard() {
@@ -46,7 +46,7 @@ export default function HandwerkerDashboard() {
     load()
   }, [router])
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="text-sm text-gray-400">LÃ¤dt...</div></div>
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="text-sm text-gray-400">Lädt...</div></div>
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
@@ -55,20 +55,20 @@ export default function HandwerkerDashboard() {
           Hallo, {profile?.firma || profile?.name}
         </h1>
         <p className="text-sm text-gray-500 mt-0.5">
-          {profile?.gewerk && `${profile.gewerk} Â· `}
-          {profile?.bewertung_avg ? `â ${profile.bewertung_avg}` : "Noch keine Bewertungen"}
+          {profile?.gewerk && `${profile.gewerk} · `}
+          {profile?.bewertung_avg ? `★ ${profile.bewertung_avg}` : "Noch keine Bewertungen"}
         </p>
       </div>
 
       <div className="grid grid-cols-3 gap-3 mb-6">
         <MetricCard label="Offene Ausschreibungen" value={auktionen.length} />
-        <MetricCard label="Meine AuftrÃ¤ge" value={meineAuftraege.length} />
-        <MetricCard label="Bewertung" value={profile?.bewertung_avg ? `${profile.bewertung_avg} â` : "â"} />
+        <MetricCard label="Meine Aufträge" value={meineAuftraege.length} />
+        <MetricCard label="Bewertung" value={profile?.bewertung_avg ? `${profile.bewertung_avg} ★` : "—"} />
       </div>
 
       <h2 className="text-sm font-medium text-gray-700 mb-3">Aktuelle Ausschreibungen in deiner Region</h2>
       {auktionen.length === 0 ? (
-        <EmptyState icon="ð" title="Keine offenen Ausschreibungen" desc="Aktuell laufen keine Auktionen." />
+        <EmptyState icon="📋" title="Keine offenen Ausschreibungen" desc="Aktuell laufen keine Auktionen." />
       ) : (
         <div className="flex flex-col gap-2 mb-6">
           {auktionen.map(t => (
@@ -79,7 +79,7 @@ export default function HandwerkerDashboard() {
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium truncate">{t.titel}</div>
                   <div className="text-xs text-gray-400 mt-0.5">
-                    {t.wohnung && `${t.wohnung} Â· `}
+                    {t.wohnung && `${t.wohnung} · `}
                     {(t.angebote as any[])?.length || 0} Angebote eingegangen
                   </div>
                 </div>
@@ -95,7 +95,7 @@ export default function HandwerkerDashboard() {
 
       {meineAuftraege.length > 0 && (
         <>
-          <h2 className="text-sm font-medium text-gray-700 mb-3">Meine laufenden AuftrÃ¤ge</h2>
+          <h2 className="text-sm font-medium text-gray-700 mb-3">Meine laufenden Aufträge</h2>
           <div className="flex flex-col gap-2">
             {meineAuftraege.map(t => (
               <Card key={t.id} className="cursor-pointer hover:border-[#1D9E75] transition-colors !p-3"
