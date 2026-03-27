@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase"
 import { Ticket } from "@/types"
-import { Badge, StatusDot, Button, Card, EmptyState } from "@/components/ui"
+import { Badge, StatusDot, Button, Card, EmptyState, LoadingSpinner } from "@/components/ui"
 
 export default function MieterTicketsPage() {
   const router = useRouter()
@@ -23,7 +23,7 @@ export default function MieterTicketsPage() {
     load()
   }, [router])
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="text-sm text-gray-400">LÃ¤dt...</div></div>
+  if (loading) return <LoadingSpinner />
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
