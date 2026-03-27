@@ -80,3 +80,4 @@ export interface Bewertung {
   kommentar?: string
   created_at: string
 }
+// fix encoding
