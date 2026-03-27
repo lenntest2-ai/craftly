@@ -40,7 +40,7 @@ export default function NeuesTicketPage() {
     <div className="p-6 max-w-2xl mx-auto">
       <div className="mb-6">
         <button onClick={() => router.back()} className="text-sm text-gray-400 hover:text-gray-600 mb-3 flex items-center gap-1">
-          â ZurÃ¼ck
+          ← Zurück
         </button>
         <h1 className="text-xl font-medium">Neues Ticket erstellen</h1>
         <p className="text-sm text-gray-500 mt-0.5">Schaden melden und Handwerker beauftragen</p>
@@ -55,7 +55,7 @@ export default function NeuesTicketPage() {
           <Input label="Wohnung / Bereich" placeholder="z.B. Whg. 3 oder Treppenhaus"
             value={form.wohnung} onChange={e => set("wohnung", e.target.value)} />
           <div className="grid grid-cols-2 gap-3">
-            <Select label="PrioritÃ¤t" value={form.prioritaet} onChange={e => set("prioritaet", e.target.value)}>
+            <Select label="Priorität" value={form.prioritaet} onChange={e => set("prioritaet", e.target.value)}>
               <option value="normal">Normal</option>
               <option value="hoch">Hoch</option>
               <option value="dringend">Dringend</option>
@@ -68,7 +68,7 @@ export default function NeuesTicketPage() {
 
           {form.vergabemodus === "auktion" && (
             <div className="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2.5 text-xs text-blue-700">
-              Handwerker kÃ¶nnen 24 Stunden lang Angebote einreichen. Du wÃ¤hlst danach das beste aus.
+              Handwerker können 24 Stunden lang Angebote einreichen. Du wählst danach das beste aus.
             </div>
           )}
 
