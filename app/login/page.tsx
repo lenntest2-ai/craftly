@@ -25,7 +25,7 @@ export default function LoginPage() {
     else if (rolle === "verwalter") router.push("/dashboard-verwalter")
     else if (rolle === "handwerker") router.push("/dashboard-handwerker")
     else if (rolle === "mieter") router.push("/dashboard-mieter")
-    else router.push("/dashboard-verwalter")
+    else router.push("/login")
   }
 
   return (
@@ -39,7 +39,7 @@ export default function LoginPage() {
           <div className="flex flex-col gap-4">
             <Input label="E-Mail" type="email" placeholder="name@firma.de"
               value={email} onChange={e => setEmail(e.target.value)} />
-            <Input label="Passwort" type="password" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢"
+            <Input label="Passwort" type="password" placeholder="••••••••"
               value={password} onChange={e => setPassword(e.target.value)}
               onKeyDown={e => e.key === "Enter" && handleLogin()} />
             {error && <p className="text-xs text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
