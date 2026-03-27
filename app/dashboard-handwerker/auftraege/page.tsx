@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase"
 import { Ticket } from "@/types"
-import { Badge, Card, EmptyState } from "@/components/ui"
+import { Badge, Card, EmptyState, LoadingSpinner } from "@/components/ui"
 
 export default function AuftraegePage() {
   const router = useRouter()
@@ -23,16 +23,16 @@ export default function AuftraegePage() {
     load()
   }, [router])
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="text-sm text-gray-400">Lädt...</div></div>
+  if (loading) return <LoadingSpinner />
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-xl font-medium">Meine Aufträge</h1>
-        <p className="text-sm text-gray-500 mt-0.5">{tickets.length} zugewiesene Aufträge</p>
+        <h1 className="text-xl font-medium">Meine AuftrÃ¤ge</h1>
+        <p className="text-sm text-gray-500 mt-0.5">{tickets.length} zugewiesene AuftrÃ¤ge</p>
       </div>
       {tickets.length === 0 ? (
-        <EmptyState icon="📋" title="Noch keine Aufträge" desc="Du wirst hier benachrichtigt sobald dir ein Auftrag vergeben wird." />
+        <EmptyState icon="ð" title="Noch keine AuftrÃ¤ge" desc="Du wirst hier benachrichtigt sobald dir ein Auftrag vergeben wird." />
       ) : (
         <div className="flex flex-col gap-2">
           {tickets.map(t => (
@@ -43,7 +43,7 @@ export default function AuftraegePage() {
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium truncate">{t.titel}</div>
                   <div className="text-xs text-gray-400 mt-0.5">
-                    {t.wohnung && `${t.wohnung} · `}
+                    {t.wohnung && `${t.wohnung} Â· `}
                     {new Date(t.created_at).toLocaleDateString("de")}
                   </div>
                 </div>
