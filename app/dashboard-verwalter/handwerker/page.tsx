@@ -42,8 +42,8 @@ export default function HandwerkerDBPage() {
       {loading ? (
         <LoadingSpinner />
       ) : filtered.length === 0 ? (
-        <EmptyState icon="ð§" title="Keine Handwerker gefunden"
-          desc={search ? "Kein Treffer fÃ¼r deine Suche." : "Noch keine Handwerker registriert."} />
+        <EmptyState icon="🔧" title="Keine Handwerker gefunden"
+          desc={search ? "Kein Treffer für deine Suche." : "Noch keine Handwerker registriert."} />
       ) : (
         <div className="flex flex-col gap-2">
           {filtered.map(h => (
@@ -53,10 +53,10 @@ export default function HandwerkerDBPage() {
                 <div className="flex-1">
                   <div className="text-sm font-medium">{h.firma || h.name}</div>
                   <div className="text-xs text-gray-500">
-                    {h.gewerk && `${h.gewerk} Â· `}
-                    {h.plz_bereich && `PLZ ${h.plz_bereich} Â· `}
-                    {h.bewertung_avg ? `â ${h.bewertung_avg}` : "Noch keine Bewertung"}
-                    {h.auftraege_anzahl ? ` Â· ${h.auftraege_anzahl} AuftrÃ¤ge` : ""}
+                    {h.gewerk && `${h.gewerk} · `}
+                    {h.plz_bereich && `PLZ ${h.plz_bereich} · `}
+                    {h.bewertung_avg ? `★ ${h.bewertung_avg}` : "Noch keine Bewertung"}
+                    {h.auftraege_anzahl ? ` · ${h.auftraege_anzahl} Aufträge` : ""}
                   </div>
                 </div>
                 <div className="text-xs text-gray-400">{h.email}</div>
