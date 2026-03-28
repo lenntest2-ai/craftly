@@ -35,7 +35,7 @@ export default function MieterTicketsPage() {
         <Button onClick={() => router.push("/dashboard-mieter/melden")}>+ Neuer Schaden</Button>
       </div>
       {tickets.length === 0 ? (
-        <EmptyState icon="ð«" title="Noch keine Meldungen"
+        <EmptyState icon="🎫" title="Noch keine Meldungen"
           desc="Melde deinen ersten Schaden."
           action={<Button onClick={() => router.push("/dashboard-mieter/melden")}>Jetzt melden</Button>} />
       ) : (
@@ -48,7 +48,7 @@ export default function MieterTicketsPage() {
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium truncate">{t.titel}</div>
                   <div className="text-xs text-gray-400 mt-0.5">
-                    {t.wohnung && `${t.wohnung} Â· `}
+                    {t.wohnung && `${t.wohnung} · `}
                     {new Date(t.created_at).toLocaleDateString("de")}
                   </div>
                 </div>
