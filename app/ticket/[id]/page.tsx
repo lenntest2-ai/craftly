@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react"
 import { useRouter, useParams } from "next/navigation"
 import { createClient } from "@/lib/supabase"
-import { Ticket, Angebot, Nachricht, UserProfile } from "@/types"
+import { Ticket, Angebot, Nachricht, UserProfile, Einladung } from "@/types"
 import { Badge, PrioBadge, Avatar, Button, Card, Input, LoadingSpinner } from "@/components/ui"
 import { Timer } from "@/components/ui/Timer"
 
@@ -17,6 +17,7 @@ export default function TicketDetail() {
   const [angebotForm, setAngebotForm] = useState({ preis: "", termin: "", nachricht: "" })
   const [sending, setSending] = useState(false)
   const [submittingBid, setSubmittingBid] = useState(false)
+  const [einladungen, setEinladungen] = useState<Einladung[]>([])
   const [loading, setLoading] = useState(true)
   const chatRef = useRef<HTMLDivElement>(null)
 
@@ -33,6 +34,8 @@ export default function TicketDetail() {
     setCurrentUser(profile)
     setTicket(t)
     setNachrichten(msgs || [])
+    const { data: einl } = await supabase.from("einladungen").select("*, handwerker:handwerker_id(id,name,firma,gewerk,bewertung_avg)").eq("ticket_id", id)
+    setEinladungen(einl || [])
     setLoading(false)
     setTimeout(() => chatRef.current?.scrollTo(0, chatRef.current.scrollHeight), 100)
   }
@@ -88,6 +91,7 @@ export default function TicketDetail() {
   if (loading) return <LoadingSpinner />
   if (!ticket) return <div className="p-6 text-sm text-gray-500">Ticket nicht gefunden.</div>
 
+  const hasEinladungen = einladungen.length > 0
   const isVerwalter = currentUser?.rolle === "verwalter" || currentUser?.rolle === "admin"
   const isHandwerker = currentUser?.rolle === "handwerker"
   const hatBereitsAngebot = ticket.angebote?.some(a => a.handwerker_id === currentUser?.id)
@@ -111,7 +115,41 @@ export default function TicketDetail() {
               {ticket.status === "auktion" && ticket.auktion_ende && <Timer end={ticket.auktion_ende} />}
             </div>
           </div>
-          {isVerwalter && ticket.status === "in_bearbeitung" && !showKosten && (
+          {isVerwalter && ticket.status === "offen" && (
+          <Card className="mt-4">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-medium text-gray-800">Handwerker einladen</h3>
+              <Button size="sm" onClick={() => router.push(`/dashboard-verwalter/tickets/${id}/handwerker`)}>
+                Handwerker ausw\u00e4hlen
+              </Button>
+            </div>
+            {einladungen.length > 0 ? (
+              <div className="space-y-2">
+                {einladungen.map(e => (
+                  <div key={e.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
+                    <div className="flex items-center gap-2">
+                      <Avatar name={e.handwerker?.name || "?"} size="sm" />
+                      <div>
+                        <div className="text-sm font-medium">{e.handwerker?.name}</div>
+                        <div className="text-xs text-gray-500">{e.handwerker?.firma}</div>
+                      </div>
+                    </div>
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${
+                      e.status === "angebot" ? "bg-green-50 text-green-700" :
+                      e.status === "abgelehnt" ? "bg-red-50 text-red-700" :
+                      "bg-amber-50 text-amber-700"
+                    }`}>
+                      {e.status === "angebot" ? "Angebot erhalten" : e.status === "abgelehnt" ? "Abgelehnt" : "Eingeladen"}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-gray-500">Noch keine Handwerker eingeladen.</p>
+            )}
+          </Card>
+        )}
+        {isVerwalter && ticket.status === "in_bearbeitung" && !showKosten && (
             <Button size="sm" onClick={() => setShowKosten(true)}>Abschließen</Button>
           )}
         </div>
