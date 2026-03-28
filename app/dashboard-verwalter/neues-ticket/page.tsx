@@ -15,7 +15,7 @@ export default function NeuesTicketPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [hwCount, setHwCount] = useState(0)
-  const [hwPreview, setHwPreview] = useState<UserProfile[]>([])
+  const [hwPreview, setHwPreview] = useState<Partial<UserProfile>[]>([])
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }))
 
   useEffect(() => {
