@@ -9,7 +9,7 @@ export default function NotFound() {
         <p className="text-gray-500 mb-6">Diese Seite wurde nicht gefunden.</p>
         <Link href="/login"
           className="inline-block bg-[#1D9E75] text-white font-medium px-5 py-2.5 rounded-lg hover:bg-[#0F6E56] transition-colors text-sm">
-          ZurÃ¼ck zum Login
+          Zurück zum Login
         </Link>
       </div>
     </div>
