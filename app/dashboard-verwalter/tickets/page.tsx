@@ -64,7 +64,7 @@ export default function TicketsPage() {
       {loading ? (
         <LoadingSpinner />
       ) : shown.length === 0 ? (
-        <EmptyState icon="ð«" title="Keine Tickets" desc="FÃ¼r diesen Filter gibt es keine Tickets." />
+        <EmptyState icon="🎫" title="Keine Tickets" desc="Für diesen Filter gibt es keine Tickets." />
       ) : (
         <div className="flex flex-col gap-2">
           {shown.map(t => (
@@ -75,15 +75,15 @@ export default function TicketsPage() {
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium truncate">{t.titel}</div>
                   <div className="text-xs text-gray-400 mt-0.5">
-                    {t.wohnung && `${t.wohnung} Â· `}
+                    {t.wohnung && `${t.wohnung} · `}
                     {new Date(t.created_at).toLocaleDateString("de")}
-                    {t.angebote?.length ? ` Â· ${t.angebote.length} Angebot${t.angebote.length !== 1 ? "e" : ""}` : ""}
+                    {t.angebote?.length ? ` · ${t.angebote.length} Angebot${t.angebote.length !== 1 ? "e" : ""}` : ""}
                   </div>
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
                   {t.angebote && t.angebote.length > 0 && (
                     <span className="text-sm font-medium text-[#1D9E75]">
-                      ab â¬ {Math.min(...t.angebote.map((a: any) => a.preis)).toLocaleString("de")}
+                      ab € {Math.min(...t.angebote.map((a: any) => a.preis)).toLocaleString("de")}
                     </span>
                   )}
                   <Badge status={t.status} />
