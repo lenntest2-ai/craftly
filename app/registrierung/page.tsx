@@ -15,7 +15,7 @@ export default function RegistrierungPage() {
   async function handleRegister() {
     if (!form.name.trim()) { setError("Bitte Name eingeben."); return }
     if (!form.email.trim()) { setError("Bitte E-Mail eingeben."); return }
-    if (form.password.length < 6) { setError("Passwort muss mindestens 6 Zeichen lang sein."); return }
+    if (form.password.length < 8) { setError("Passwort muss mindestens 8 Zeichen lang sein."); return }
     setLoading(true); setError("")
     const supabase = createClient()
     const { data, error } = await supabase.auth.signUp({ email: form.email, password: form.password })
@@ -45,12 +45,12 @@ export default function RegistrierungPage() {
               <option value="handwerker">Handwerksbetrieb</option>
               <option value="mieter">Mieter</option>
             </Select>
-            <Input label="VollstÃ¤ndiger Name" placeholder="Max Mustermann" value={form.name} onChange={e => set("name", e.target.value)} />
+            <Input label="Vollständiger Name" placeholder="Max Mustermann" value={form.name} onChange={e => set("name", e.target.value)} />
             <Input label="E-Mail" type="email" placeholder="name@firma.de" value={form.email} onChange={e => set("email", e.target.value)} />
             <Input label="Passwort" type="password" placeholder="Mindestens 8 Zeichen" value={form.password} onChange={e => set("password", e.target.value)} />
             {form.rolle === "handwerker" && <>
               <Input label="Firmenname" placeholder="Klimatec GmbH" value={form.firma} onChange={e => set("firma", e.target.value)} />
-              <Input label="Gewerk / Spezialisierung" placeholder="Heizung, SanitÃ¤r" value={form.gewerk} onChange={e => set("gewerk", e.target.value)} />
+              <Input label="Gewerk / Spezialisierung" placeholder="Heizung, Sanitär" value={form.gewerk} onChange={e => set("gewerk", e.target.value)} />
               <Input label="PLZ-Einzugsgebiet" placeholder="60xxx, 65xxx" value={form.plz_bereich} onChange={e => set("plz_bereich", e.target.value)} />
             </>}
             {error && <p className="text-xs text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
