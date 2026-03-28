@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import { useRouter, useParams } from "next/navigation"
 import { createClient } from "@/lib/supabase"
-import { UserProfile, Ticket, GEWERK_LABELS } from "@/types"
+import { UserProfile, Ticket, GEWERK_LABELS, Verfuegbarkeit, WOCHENTAGE } from "@/types"
 import { Button, Card, Avatar, LoadingSpinner, Toast } from "@/components/ui"
 import { berechnePreisfaktor, berechneRichtpreis } from "@/lib/preisfaktor"
 
@@ -12,7 +12,7 @@ export default function HandwerkerAuswahlPage() {
   const ticketId = params.id as string
 
   const [ticket, setTicket] = useState<Ticket | null>(null)
-  const [handwerker, setHandwerker] = useState<(UserProfile & { selected: boolean })[]>([])
+  const [handwerker, setHandwerker] = useState<(UserProfile & { selected: boolean; verfuegbarkeiten?: Verfuegbarkeit[] })[]>([])
   const [loading, setLoading] = useState(true)
   const [sending, setSending] = useState(false)
   const [toast, setToast] = useState("")
@@ -42,10 +42,25 @@ export default function HandwerkerAuswahlPage() {
       }
       const { data: hws } = await query.order("bewertung_avg", { ascending: false })
 
+      // Verfügbarkeiten aller Handwerker laden
+      const hwIds = (hws || []).map(hw => hw.id)
+      const { data: alleVerf } = await supabase
+        .from("verfuegbarkeiten")
+        .select("*")
+        .in("handwerker_id", hwIds)
+        .eq("aktiv", true)
+
+      const verfMap = new Map<string, Verfuegbarkeit[]>()
+      ;(alleVerf || []).forEach((v: Verfuegbarkeit) => {
+        if (!verfMap.has(v.handwerker_id)) verfMap.set(v.handwerker_id, [])
+        verfMap.get(v.handwerker_id)!.push(v)
+      })
+
       const bereitsEingeladen = new Set((t.einladungen || []).map((e: any) => e.handwerker_id))
       setHandwerker((hws || []).map(hw => ({
         ...hw,
         selected: bereitsEingeladen.has(hw.id),
+        verfuegbarkeiten: verfMap.get(hw.id) || [],
       })))
       setLoading(false)
     }
@@ -191,6 +206,30 @@ export default function HandwerkerAuswahlPage() {
                       {" · "}{hw.auftraege_anzahl || 0} Aufträge
                       {hw.gewerk && ` · ${GEWERK_LABELS[hw.gewerk] || hw.gewerk}`}
                     </div>
+                    {/* Verfügbarkeits-Dots */}
+                    {hw.verfuegbarkeiten && hw.verfuegbarkeiten.length > 0 ? (
+                      <div className="flex items-center gap-0.5 mt-1">
+                        <span className="text-[10px] text-gray-400 mr-1">Verf.:</span>
+                        {[1,2,3,4,5,6,0].map(tag => {
+                          const aktiv = hw.verfuegbarkeiten!.some(v => v.wochentag === tag)
+                          return (
+                            <div
+                              key={tag}
+                              title={`${WOCHENTAGE[tag]}${aktiv ? " verfügbar" : ""}`}
+                              className={`w-4 h-4 rounded text-[9px] flex items-center justify-center font-medium ${
+                                aktiv
+                                  ? "bg-green-100 text-green-700"
+                                  : "bg-gray-50 text-gray-300"
+                              }`}
+                            >
+                              {WOCHENTAGE[tag]}
+                            </div>
+                          )
+                        })}
+                      </div>
+                    ) : (
+                      <div className="text-[10px] text-gray-400 mt-1">Keine Verfügbarkeit hinterlegt</div>
+                    )}
                   </div>
 
                   <div className="text-right flex-shrink-0">
@@ -224,3 +263,4 @@ export default function HandwerkerAuswahlPage() {
     </div>
   )
 }
+
