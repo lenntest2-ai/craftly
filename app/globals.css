@@ -40,6 +40,13 @@ a, button { transition: all 0.15s ease; }
   50% { opacity: 0.5; }
 }
 
+/* Toast slide-up animation */
+@keyframes slide-up {
+  from { opacity: 0; transform: translateX(-50%) translateY(16px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+.animate-slide-up { animation: slide-up 0.25s ease-out; }
+
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
